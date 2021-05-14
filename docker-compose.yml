@@ -17,7 +17,7 @@ services:
       - nuxt
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.nginx.rule=Host(`beplus.agency`, `api.beplus.agency`)" 
+      - "traefik.http.routers.nginx.rule=Host(`beplus.agency`)" 
       - "traefik.http.routers.nginx.entrypoints=websecure"
       - "traefik.http.routers.nginx.tls.certresolver=myresolver" 
 
