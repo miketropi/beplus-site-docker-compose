@@ -17,9 +17,39 @@ services:
       - nuxt
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.nginx.rule=Host(`beplus.agency`)" 
+      - "traefik.http.routers.nginx.rule=Host(`beplus.agency`, `api.beplus.agency`)" 
       - "traefik.http.routers.nginx.entrypoints=websecure"
       - "traefik.http.routers.nginx.tls.certresolver=myresolver" 
+
+  wordpress:
+    image: wordpress
+    restart: always
+    ports:
+      - "8383:8383"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: beplus@agency
+      WORDPRESS_DB_PASSWORD: beplus@agency
+      WORDPRESS_DB_NAME: beplusagency
+    volumes:
+      - ./wordpress:/var/www/html
+    networks:
+      - nuxt
+
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: beplusagency
+      MYSQL_USER: beplus@agency
+      MYSQL_PASSWORD: beplus@agency
+      MYSQL_RANDOM_ROOT_PASSWORD: Developer29
+    volumes:
+      - ./db:/var/lib/mysql
+    networks:
+      - nuxt
+    labels:
+      - "traefik.enable=false"
 
   nuxtjs:
     build: ./nuxt-app/
@@ -32,7 +62,7 @@ services:
 
   traefik:
     image: "traefik:v2.4"
-    container_name: "traefik"
+    container_name: "traefik" 
     command:
       #- "--log.level=DEBUG"
       - "--api.insecure=true"
