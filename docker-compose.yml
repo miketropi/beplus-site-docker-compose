@@ -8,15 +8,18 @@ services:
   nginx:
     build: ./dockers/nginx/
     volumes:
-      - ./dockers/nginx:/etc/nginx/conf.d
-    ports:
-      - "80:80"     # The HTTP port
-      - "443:443"   # The HTTPS port
+      - "./dockers/nginx:/etc/nginx/conf.d"
     links:
       - nuxtjs
     container_name: nuxt-nginx
+    restart: always
     networks:
       - nuxt
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nginx.rule=Host(`beplus.agency`)" 
+      - "traefik.http.routers.nginx.entrypoints=websecure"
+      - "traefik.http.routers.nginx.tls.certresolver=myresolver" 
 
   nuxtjs:
     build: ./nuxt-app/
@@ -36,7 +39,16 @@ services:
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.myresolver.acme.email=mike.beplus@gmail.com"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
     ports:
       - "8080:8080"
+      - "80:80"
+      - "443:443"
     volumes:
+      - "./letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - nuxt
