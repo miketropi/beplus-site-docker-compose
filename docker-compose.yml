@@ -20,12 +20,11 @@ services:
       - "traefik.http.routers.nginx.rule=Host(`beplus.agency`)" 
       - "traefik.http.routers.nginx.entrypoints=websecure"
       - "traefik.http.routers.nginx.tls.certresolver=myresolver" 
+      - "traefik.port=80"
 
   wordpress:
     image: wordpress
     restart: always
-    ports:
-      - "8383:80"
     environment:
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_USER: beplus@agency
@@ -39,6 +38,7 @@ services:
       - "traefik.http.routers.wordpress.entrypoints=websecure"
       - "traefik.http.routers.wordpress.tls=true"
       - "traefik.http.routers.wordpress.tls.certresolver=myresolver"
+      - "traefik.port=8383:80"
     networks:
       - nuxt
 
