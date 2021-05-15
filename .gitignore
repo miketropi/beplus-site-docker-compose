@@ -1,2 +1,4 @@
 letsencrypt
 .docker-compose.yml.swp
+db
+wordpress

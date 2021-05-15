@@ -42,6 +42,16 @@ services:
     networks:
       - nuxt
 
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8888:8080"
+    networks: 
+      - nuxt
+    labels: 
+      - "traefik.enable=false"
+
   db:
     image: mysql:5.7
     restart: always
