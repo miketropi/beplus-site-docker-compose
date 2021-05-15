@@ -17,7 +17,7 @@ services:
       - nuxt
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.nginx.rule=Host(`beplus.agency`)" 
+      - "traefik.http.routers.nginx.rule=Host(`${NUXT_DOMAIN}`)" 
       - "traefik.http.routers.nginx.entrypoints=websecure"
       - "traefik.http.routers.nginx.tls.certresolver=myresolver" 
       - "traefik.port=80"
@@ -27,14 +27,14 @@ services:
     restart: always
     environment:
       WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER: beplus@agency
-      WORDPRESS_DB_PASSWORD: beplus@agency
-      WORDPRESS_DB_NAME: beplusagency
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
     volumes:
       - ./wordpress:/var/www/html
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.wordpress.rule=Host(`api.beplus.agency`)" 
+      - "traefik.http.routers.wordpress.rule=Host(`${API_DOMAIN}`)" 
       - "traefik.http.routers.wordpress.entrypoints=websecure"
       - "traefik.http.routers.wordpress.tls=true"
       - "traefik.http.routers.wordpress.tls.certresolver=myresolver"
@@ -56,10 +56,10 @@ services:
     image: mysql:5.7
     restart: always
     environment:
-      MYSQL_DATABASE: beplusagency
-      MYSQL_USER: beplus@agency
-      MYSQL_PASSWORD: beplus@agency
-      MYSQL_RANDOM_ROOT_PASSWORD: Developer29
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_RANDOM_ROOT_PASSWORD: ${MYSQL_RANDOM_ROOT_PASSWORD}
     volumes:
       - ./db:/var/lib/mysql
     networks:
