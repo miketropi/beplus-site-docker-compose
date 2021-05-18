@@ -27,9 +27,9 @@ services:
     restart: always
     environment:
       WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER: ${MYSQL_USER}
-      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
-      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+      WORDPRESS_DB_USER: ${API_MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${API_MYSQL_PASSWORD}
+      WORDPRESS_DB_NAME: ${API_MYSQL_DATABASE}
     volumes:
       - ./wordpress:/var/www/html
     labels:
@@ -56,10 +56,10 @@ services:
     image: mysql:5.7
     restart: always
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${API_MYSQL_DATABASE}
+      MYSQL_USER: ${API_MYSQL_USER}
+      MYSQL_PASSWORD: ${API_MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${API_MYSQL_ROOT_PASSWORD}
     volumes:
       - ./db:/var/lib/mysql
     networks:
