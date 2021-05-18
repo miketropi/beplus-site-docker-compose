@@ -69,10 +69,12 @@ services:
 
   nuxtjs:
     build: ./nuxt-app/
+    restart: always
     ports:
       - 3000:3000
     container_name: nuxt-js
-    command: "npm run dev"
+    command:
+      "npm run start"
     networks:
       - nuxt
 
