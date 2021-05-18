@@ -2,4 +2,7 @@ letsencrypt
 .docker-compose.yml.swp
 db
 wordpress
+!wordpress/wp-content/plugins
+!wordpress/wp-content/themes
+nuxt-app
 .env
